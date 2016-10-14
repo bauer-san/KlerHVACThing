@@ -10,9 +10,9 @@ os.system('modprobe w1-therm')
 # The next step is to define our sensor?s output file (the w1_slave file).
 # Remember to utilise your own temperature sensor?s serial code!
 
-MySensors = {'sys/bus/w1/devices/3b-############/w1_slave', \
-             'sys/bus/w1/devices/3b-############/w1_slave', \
-             'sys/bus/w1/devices/3b-############/w1_slave'
+MySensors = {'/sys/bus/w1/devices/3b-############/w1_slave', \
+             '/sys/bus/w1/devices/3b-############/w1_slave', \
+             '/sys/bus/w1/devices/3b-############/w1_slave'
             }
 
 def temp_raw():
