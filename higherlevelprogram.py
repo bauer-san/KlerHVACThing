@@ -4,8 +4,8 @@ import sys
 import Adafruit_DHT
 
 #load our drivers:
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+os.system('sudo modprobe w1-gpio')
+os.system('sudo modprobe w1-therm')
 
 # The next step is to define our sensor?s output file (the w1_slave file).
 # Remember to utilise your own temperature sensor?s serial code!
@@ -58,8 +58,28 @@ def read_AM2302():
     return temperature, humidity
 
 #Main loop
+# open a file
+datafile = open("myfile.txt", "w")
 while True:
-        for temp_sensor in MySensors:
-            print(temp_sensor, read_temp())
-        print(read_AM2302())
-        time.sleep(1)
+    #
+    output = time.asctime()
+
+    # read all of the thermocouples defined above in temp_sensor
+    for temp_sensor in MySensors:
+        output = output + str(read_temp()) + ", "
+
+    # read the AM2302
+    air_temp, air_hum = read_AM2302()
+
+    # Update the output
+    output = "%s %f, %f" % (output, air_temp, air_hum)
+
+    # print output to the stdout and to the datafile
+    print output
+    datafile.write(output)
+
+    # do nothing for a number of seconds
+    time.sleep(1)
+
+# this line should never be executed due to the while loop
+datafile.close()
