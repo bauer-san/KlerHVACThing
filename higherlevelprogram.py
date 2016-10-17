@@ -59,7 +59,7 @@ def read_AM2302():
 
 #Main loop
 # open a file
-datafile = open("myfile.txt", "w")
+datafile = open("myfile.txt", "w") # change the w to a if you want to append
 while True:
     #
     output = time.asctime()
