@@ -66,13 +66,13 @@ while True:
 
     # read all of the thermocouples defined above in temp_sensor
     for temp_sensor in MySensors:
-        output = output + str(read_temp()) + ", "
+        output = output + "\t" + str(read_temp()) + ",\t"
 
     # read the AM2302
     air_temp, air_hum = read_AM2302()
 
     # Update the output
-    output = "%s %f, %f" % (output, air_temp, air_hum)
+    output = "%s\t%.2f,\t%.2f" % (output, air_temp, air_hum)
 
     # print output to the stdout and to the datafile
     print output
