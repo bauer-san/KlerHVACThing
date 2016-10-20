@@ -2,6 +2,7 @@ import os
 import time
 import sys
 import Adafruit_DHT
+import serial
 
 #load our drivers:
 os.system('sudo modprobe w1-gpio')
@@ -57,6 +58,17 @@ def read_AM2302():
     temperature = temperature * 9/5.0 + 32
     return temperature, humidity
 
+def read_serial():
+    # read the power values from serial port and return string
+    ser = serial.Serial("/dev/ttyAMA0", baudrate = 9600, timeout = 2)
+
+    line = ""
+    line = ser.readline()
+
+    #improve the formating
+    ret = line.replace(" ", ",\t")
+    return ret
+
 #Main loop
 # open a file
 datafile = open("myfile.txt", "w") # change the w to a if you want to append
@@ -71,8 +83,10 @@ while True:
     # read the AM2302
     air_temp, air_hum = read_AM2302()
 
+    emotx_result = read_serial()
+
     # Update the output
-    output = "%s\t%.2f,\t%.2f" % (output, air_temp, air_hum)
+    output = "%s\t%.2f,\t%.2f,\t%s" % (output, air_temp, air_hum, emotx_result)
 
     # print output to the stdout and to the datafile
     print output
